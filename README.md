@@ -5,9 +5,9 @@ A Xray backend framework that can easily support many panels.
 
 Find the source code here: [XrayR-project/XrayR](https://github.com/XrayR-project/XrayR)
 
-# 面板节点设置
+# 详细使用教程
 
-[教程](https://github.com/XrayR-project/XrayR/blob/master/README.md)
+[教程](https://crackair.gitbook.io/xrayr-project/)
 
 # 一键安装
 
@@ -37,6 +37,7 @@ Log:
   Level: debug # Log level: none, error, warning, info, debug 
   AccessPath: # ./access.Log
   ErrorPath: # ./error.log
+DnsConfigPath: # ./dns.json  Path to dns config
 Nodes:
   -
     PanelType: "SSpanel" # Panel type: SSpanel
@@ -45,16 +46,42 @@ Nodes:
       ApiKey: "123"
       NodeID: 41
       NodeType: V2ray # Node type: V2ray, Shadowsocks, Trojan
+      Timeout: 30 # Timeout for the api request, Default is 5 sec
       EnableVless: false # Enable Vless for V2ray Type, Prefer remote configuration
       EnableXTLS: false # Enable XTLS for V2ray and Trojan， Prefer remote configuration
     ControllerConfig:
       ListenIP: 0.0.0.0 # IP address you want to listen
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
+      EnableDNS: false # Enable custom DNS config, Please ensure that you set the dns.json well
       CertConfig:
         CertMode: dns # Option about how to get certificate: none, file, http, dns. Choose "none" will forcedly disable the tls config.
         CertDomain: "node1.test.com" # Domain to cert
         CertFile: ./cert/node1.test.com.cert # Provided if the CertMode is file
         KeyFile: ./cert/node1.test.com.key
+        Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
+        Email: test@me.com
+        DNSEnv: # DNS ENV option used by DNS provider
+          ALICLOUD_ACCESS_KEY: aaa
+          ALICLOUD_SECRET_KEY: bbb
+  -
+    PanelType: "V2board" # Panel type: SSpanel, V2board
+    ApiConfig:
+      ApiHost: "http://V2board.com"
+      ApiKey: "123"
+      NodeID: 42
+      NodeType: Trojan # Node type: V2ray, Shadowsocks, Trojan
+      Timeout: 30 # Timeout for the api request
+      EnableVless: false # Enable Vless for V2ray Type, Prefer remote configuration
+      EnableXTLS: false # Enable XTLS for V2ray and Trojan， Prefer remote configuration
+    ControllerConfig:
+      ListenIP: 0.0.0.0 # IP address you want to listen
+      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
+      EnableDNS: false # Enable custom DNS config, Please ensure that you set the dns.json well
+      CertConfig:
+        CertMode: dns # Option about how to get certificate: none, file, http, dns. Choose "none" will forcedly disable the tls config.
+        CertDomain: "node2.test.com" # Domain to cert
+        CertFile: ./cert/node2.test.com.cert # Provided if the CertMode is file
+        KeyFile: ./cert/node2.test.com.key
         Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
         Email: test@me.com
         DNSEnv: # DNS ENV option used by DNS provider
